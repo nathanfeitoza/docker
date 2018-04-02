@@ -1,0 +1,18 @@
+-Postgres: (-p 5432:5432 é opcional)
+     docker create -v volume-db:/var/lib/postgresql/data --name dbdados centos (criar volume separado)
+     docker run --restart=always --name pgsql1 -d -p 5432:5432 --volumes-from dbdados -e POSTGRES_USER=infosistemas -e POSTGRES_PASSWORD=info1234 postgres (com volumes)
+
+
+-Mysql:
+     docker create -v volume-db:/var/lib/mysql/data --name dbmysql ubuntu (criar volume separado)
+     docker run --restart=always --name mysql -d --volumes-from dbmysql mysql (com volumes)
+
+-Apache
+     docker volume create --name volume-www (criando o volume-www)
+     ln -s /var/lib/docker/volumes/volume-www/_data/ /www
+     chmod 777 -Rf /www/ (permissões total as pastas/subpastas)
+     docker run --restart=always --name apache-info --link pgsql1:db -d -p 80:80 -v volume-www:/var/www/html nimmis/apache-php7 (linkado ao container apache ao postgres via alias "db" e volume-www)     
+
+     docker run --restart=always --name apache-info --link mysql:dbmy -d -p 80:80 -v volume-www:/var/www/html nimmis/apache-php7 (linkado ao container apache ao mysql via alias "db" e volume-www)
+
+     docker run --restart=always --name apache-info-mysql --link pgsql1:db --link mysql:dbmy -d -p 5081:80 -v volume-www:/var/www/html nimmis/apache-php7 (Linkando aos dois bancos)

@@ -1,0 +1,55 @@
+DOCKER
+fonte: https://woliveiras.com.br/posts/comandos-mais-utilizados-no-docker
+
+-Ver consumo de hardware dos conteiner
+docker stats
+
+-Ver conteiner rodando
+docker ps
+
+-Ver todos os conteiner
+docker ps -a
+
+-Sair de um conteiner sem mata-lo
+ctrl+p+q
+
+-Matar um conteiner
+ctrl+d
+
+-Entrar em um conteiner ativo
+docker attach <conteiner ID>
+
+-Saber o que foi alterado no conteiner
+docker diff <conteiner ID>
+
+-saber servicos tcp/port escutando
+netstat -atunp
+
+-Removendo todos os containers e imagens de uma só vez
+docker rm $(docker ps -qa)
+
+- Remover volume
+docker volume rm <nome_do_volume>
+
+-Imagens
+docker images
+
+-Remover imagens
+docker rmi <conteiner ID>
+
+-Como executar comandos, sem precisar estar dentro do container?
+docker exec -it id_ou_apelido comando
+docker exec -it ubuntinho ifconfig eth0
+
+-Atualizar Docker
+curl -fsSL https://get.docker.com/ | sh
+
+-Instalar docker compose
+sudo|yum install epel-release
+sudo|yum install -y python-pip
+pip install docker-compose
+pip install --upgrade pip
+
+-DICAS
+ boas -> http://stefanteixeira.com.br/2015/03/17/comandos-essenciais-docker-monitoramento-containers/
+         http://coisasdogeek.com.br/doc/2015/09/15/como-criar-um-conteiner-no-docker/
