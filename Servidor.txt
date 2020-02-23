@@ -16,3 +16,12 @@
      docker run --restart=always --name apache-info --link mysql:dbmy -d -p 80:80 -v volume-www:/var/www/html nimmis/apache-php7 (linkado ao container apache ao mysql via alias "db" e volume-www)
 
      docker run --restart=always --name apache-info-mysql --link pgsql1:db --link mysql:dbmy -d -p 5081:80 -v volume-www:/var/www/html nimmis/apache-php7 (Linkando aos dois bancos)
+
+- Nginx
+
+sudo docker volume create --name volume-www-nginx
+sudo mkdir /var/www/html-nginx
+sudo chmod -Rf 777 /var/www/html-nginx
+sudo ln -s /var/lib/docker/volumes/volume-www-nginx/_data/ /var/www/html-nginx
+docker build . -t nginx-php
+sudo docker run --restart=always --name nginx-php --link pgsql:db_postgres --link mariadb:db_mysql  -d -p 808:80 -v volume-www-nginx:/var/www/html-nginx nginx-php
