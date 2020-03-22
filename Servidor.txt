@@ -6,6 +6,9 @@
 -Mysql:
      docker create -v volume-db:/var/lib/mysql/data --name dbmysql ubuntu (criar volume separado)
      docker run --restart=always --name mysql -d --volumes-from dbmysql mysql (com volumes)
+     5.7.29
+     sudo docker volume create dados-do-banco
+     sudo docker run --restart=always --name mysql_server -v dados-do-banco:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d -p 3306:3306 mysql:5.7.29
 
 -Apache
      docker volume create --name volume-www (criando o volume-www)
