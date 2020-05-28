@@ -5,7 +5,9 @@
 
 -Mysql:
      docker create -v volume-db:/var/lib/mysql/data --name dbmysql ubuntu (criar volume separado)
-     docker run --restart=always --name mysql -d --volumes-from dbmysql mysql (com volumes)
+     docker run --restart=always --name mysql2 -e MYSQL_ROOT_PASSWORD=123456 -d -p 3306:3306 --volumes-from dbmysql mysql (com volumes)
+     docker run --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=123456 -d -p 3306:3306 --volumes-from dbmysql backup-mariadb
+     docker run --restart=always --name mysql_server -e MYSQL_ROOT_PASSWORD=123456 -p 3308:3306 mysql:5.7.29
 
 -Apache
      docker volume create --name volume-www (criando o volume-www)
@@ -24,4 +26,4 @@ sudo mkdir /var/www/html-nginx
 sudo chmod -Rf 777 /var/www/html-nginx
 sudo ln -s /var/lib/docker/volumes/volume-www-nginx/_data/ /var/www/html-nginx
 docker build . -t nginx-php
-sudo docker run --restart=always --name nginx-php --link pgsql:db_postgres --link mariadb:db_mysql  -d -p 808:80 -v volume-www-nginx:/var/www/html-nginx nginx-php
+sudo docker run --restart=always --name nginx-php --link pgsql:db_postgres --link mariadb:db_mysql -d -p 808:80 -v volume-www-nginx:/var/www/html-nginx nginx-php
